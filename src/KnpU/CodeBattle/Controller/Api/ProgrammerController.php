@@ -87,7 +87,13 @@ class ProgrammerController extends BaseController
 
     public function listAction(Request $request)
     {
-        $programmers = $this->getProgrammerRepository()->findAll();
+        $nicknameFilter = $request->query->get('nickname');
+        if ($nicknameFilter) {
+            $programmers = $this->getProgrammerRepository()
+                ->findAllLike(array('nickname' => '%'.$nicknameFilter.'%'));
+        } else {
+            $programmers = $this->getProgrammerRepository()->findAll();
+        }
 
         $limit = $request->get('limit', 5);
         $page = $request->get('page', 1);
@@ -104,7 +110,7 @@ class ProgrammerController extends BaseController
         $paginated = new PaginatedRepresentation(
             $collection,
             'api_programmers_list',
-            array(),
+            array('nickname' => $nicknameFilter),
             $page,
             $limit,
             $numberOfPages
