@@ -3,9 +3,11 @@
 namespace KnpU\CodeBattle\Controller\Api;
 
 use Hateoas\Representation\CollectionRepresentation;
+use Hateoas\Representation\PaginatedRepresentation;
 use KnpU\CodeBattle\Api\ApiProblem;
 use KnpU\CodeBattle\Api\ApiProblemException;
 use KnpU\CodeBattle\Controller\BaseController;
+use KnpU\CodeBattle\Model\Homepage;
 use Silex\ControllerCollection;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -17,12 +19,17 @@ class ProgrammerController extends BaseController
 
     protected function addRoutes(ControllerCollection $controllers)
     {
+        // the homepage - put in this controller for simplicity
+        $controllers->get('/api', array($this, 'homepageAction'))
+            ->bind('api_homepage');
+
         $controllers->post('/api/programmers', array($this, 'newAction'));
 
         $controllers->get('/api/programmers/{nickname}', array($this, 'showAction'))
             ->bind('api_programmers_show');
 
-        $controllers->get('/api/programmers', array($this, 'listAction'));
+        $controllers->get('/api/programmers', array($this, 'listAction'))
+            ->bind('api_programmers_list');
 
         $controllers->get('/api/programmers/{nickname}/battles', array($this, 'listBattlesAction'))
             ->bind('api_programmers_battles_list');
@@ -35,6 +42,12 @@ class ProgrammerController extends BaseController
             ->method('PATCH');
 
         $controllers->delete('/api/programmers/{nickname}', array($this, 'deleteAction'));
+    }
+
+    public function homepageAction()
+    {
+        $homepage = new Homepage();
+        return $this->createApiResponse($homepage);
     }
 
     public function newAction(Request $request)
@@ -72,16 +85,32 @@ class ProgrammerController extends BaseController
         return $response;
     }
 
-    public function listAction()
+    public function listAction(Request $request)
     {
         $programmers = $this->getProgrammerRepository()->findAll();
 
+        $limit = $request->get('limit', 5);
+        $page = $request->get('page', 1);
+        // my manual, silly pagination logic. Use a real library
+        $offset = ($page - 1) * $limit;
+        $numberOfPages = (int)ceil(count($programmers) / $limit);
+
         $collection = new CollectionRepresentation(
-            $programmers,
+            array_slice($programmers, $offset, $limit),
             'programmers',
             'programmers'
         );
-        $response = $this->createApiResponse($collection, 200, 'json');
+
+        $paginated = new PaginatedRepresentation(
+            $collection,
+            'api_programmers_list',
+            array(),
+            $page,
+            $limit,
+            $numberOfPages
+        );
+
+        $response = $this->createApiResponse($paginated, 200, 'json');
 
         return $response;
     }
