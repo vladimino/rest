@@ -7,6 +7,15 @@ use Hateoas\Configuration\Annotation as Hateoas;
 
 /**
  * @Serializer\ExclusionPolicy("all")
+ *
+ * @Hateoas\Relation(
+ *      "self",
+ *      href = @Hateoas\Route(
+ *          "api_battles_show",
+ *          parameters = { "id" = "expr(object.id)" }
+ *      )
+ * )
+ *
  * @Hateoas\Relation(
  *      "programmer",
  *      href = @Hateoas\Route(

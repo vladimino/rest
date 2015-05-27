@@ -1,8 +1,8 @@
-/.idea
+.idea
 /composer.phar
 /vendor
-/cache
+cache
 /data/*.sqlite
 /behat.yml
-/logs/*
+logs/*
 /.sass-cache
