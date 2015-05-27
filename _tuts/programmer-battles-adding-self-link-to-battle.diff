@@ -1,0 +1,18 @@
+diff --git a/src/KnpU/CodeBattle/Model/Battle.php b/src/KnpU/CodeBattle/Model/Battle.php
+index 08bef5b..86218af 100644
+--- a/src/KnpU/CodeBattle/Model/Battle.php
++++ b/src/KnpU/CodeBattle/Model/Battle.php
+@@ -8,6 +8,13 @@ use Hateoas\Configuration\Annotation as Hateoas;
+ 
+ /**
+  * @Hateoas\Relation(
++ *      "self",
++ *      href = @Hateoas\Route(
++ *          "api_battle_show",
++ *          parameters = { "nickname" = "expr(object.id)" }
++ *      )
++ * )
++ * @Hateoas\Relation(
+  *      "programmer",
+  *      href = @Hateoas\Route(
+  *          "api_programmers_show",

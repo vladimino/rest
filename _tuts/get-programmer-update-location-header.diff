@@ -1,0 +1,42 @@
+diff --git a/src/KnpU/CodeBattle/Controller/Api/ProgrammerController.php b/src/KnpU/CodeBattle/Controller/Api/ProgrammerController.php
+index 491e177..248dd42 100644
+--- a/src/KnpU/CodeBattle/Controller/Api/ProgrammerController.php
++++ b/src/KnpU/CodeBattle/Controller/Api/ProgrammerController.php
+@@ -16,7 +16,8 @@ class ProgrammerController extends BaseController
+     {
+         $controllers->post('/api/programmers', array($this, 'newAction'));
+ 
+-        $controllers->get('/api/programmers/{nickname}', array($this, 'showAction'));
++        $controllers->get('/api/programmers/{nickname}', array($this, 'showAction'))
++            ->bind('api_programmers_show');
+     }
+ 
+     public function newAction(Request $request)
+@@ -30,7 +31,11 @@ class ProgrammerController extends BaseController
+         $this->save($programmer);
+ 
+         $response = new Response('It worked. Believe me - I\'m an API', 201);
+-        $response->headers->set('Location', '/some/programmer/url');
++        $programmerUrl = $this->generateUrl(
++            'api_programmers_show',
++            ['nickname' => $programmer->nickname]
++        );
++        $response->headers->set('Location', $programmerUrl);
+ 
+         return $response;
+     }
+diff --git a/testing.php b/testing.php
+index 4bd9bd1..edead1b 100644
+--- a/testing.php
++++ b/testing.php
+@@ -22,6 +22,10 @@ $data = array(
+ $request = $client->post('/api/programmers', null, json_encode($data));
+ $response = $request->send();
+ 
++echo $response;
++echo "\n\n";
++die;
++
+ // 2) GET a programmer resource
+ $request = $client->get('/api/programmers/abcd'.$nickname);
+ $response = $request->send();

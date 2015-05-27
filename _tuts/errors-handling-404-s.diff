@@ -1,0 +1,108 @@
+diff --git a/features/api/programmer.feature b/features/api/programmer.feature
+index a52e61c..667ef35 100644
+--- a/features/api/programmer.feature
++++ b/features/api/programmer.feature
+@@ -53,6 +53,13 @@ Feature: Programmer
+     And the "Content-Type" header should be "application/problem+json"
+     And the "type" property should equal "invalid_body_format"
+ 
++  Scenario: Proper 404 exception on no programmer
++    When I request "GET /api/programmers/fake"
++    Then the response status code should be 404
++    And the "Content-Type" header should be "application/problem+json"
++    And the "type" property should equal "about:blank"
++    And the "title" property should equal "Not Found"
++
+   Scenario: GET one programmer
+     Given the following programmers exist:
+       | nickname   | avatarNumber |
+diff --git a/src/KnpU/CodeBattle/Api/ApiProblem.php b/src/KnpU/CodeBattle/Api/ApiProblem.php
+index fb03028..895a284 100644
+--- a/src/KnpU/CodeBattle/Api/ApiProblem.php
++++ b/src/KnpU/CodeBattle/Api/ApiProblem.php
+@@ -2,6 +2,8 @@
+ 
+ namespace KnpU\CodeBattle\Api;
+ 
++use Symfony\Component\HttpFoundation\Response;
++
+ /**
+  * A wrapper for holding data to be used for a application/problem+json response
+  */
+@@ -23,16 +25,28 @@ class ApiProblem
+ 
+     private $extraData = array();
+ 
+-    public function __construct($statusCode, $type)
++    public function __construct($statusCode, $type = null)
+     {
+         $this->statusCode = $statusCode;
+         $this->type = $type;
+ 
+-        if (!isset(self::$titles[$type])) {
+-            throw new \InvalidArgumentException('No title for type '.$type);
+-        }
++        if ($type === null) {
++            // no type? The default is about:blank and the title should
++            // be the standard status code message
++            $this->type = 'about:blank';
++            $this->title = isset(Response::$statusTexts[$statusCode])
++                ? Response::$statusTexts[$statusCode]
++                : 'Unknown status code :(';
++        } else {
++            if (!isset(self::$titles[$type])) {
++                throw new \Exception(sprintf(
++                    'No title for type "%s". Did you make it up?',
++                    $type
++                ));
++            }
+ 
+-        $this->title = self::$titles[$type];
++            $this->title = self::$titles[$type];
++        }
+     }
+ 
+     public function toArray()
+diff --git a/src/KnpU/CodeBattle/Application.php b/src/KnpU/CodeBattle/Application.php
+index e4f186c..9809328 100644
+--- a/src/KnpU/CodeBattle/Application.php
++++ b/src/KnpU/CodeBattle/Application.php
+@@ -3,6 +3,7 @@
+ namespace KnpU\CodeBattle;
+ 
+ use Doctrine\Common\Annotations\AnnotationReader;
++use KnpU\CodeBattle\Api\ApiProblem;
+ use KnpU\CodeBattle\Api\ApiProblemException;
+ use KnpU\CodeBattle\Battle\PowerManager;
+ use KnpU\CodeBattle\Repository\BattleRepository;
+@@ -288,15 +289,25 @@ class Application extends SilexApplication
+ 
+     private function configureListeners()
+     {
+-        $this->error(function(\Exception $e, $statusCode) {
+-            // only do something special if we have an ApiProblemException!
+-            if (!$e instanceof ApiProblemException) {
++        $app = $this;
++
++        $this->error(function(\Exception $e, $statusCode) use ($app) {
++            // only act on /api URLs
++            if (strpos($app['request']->getPathInfo(), '/api') !== 0) {
+                 return;
+             }
+ 
++            if ($e instanceof ApiProblemException) {
++                $apiProblem = $e->getApiProblem();
++            } else {
++                $apiProblem = new ApiProblem(
++                    $statusCode
++                );
++            }
++
+             $response = new JsonResponse(
+-                $e->getApiProblem()->toArray(),
+-                $e->getApiProblem()->getStatusCode()
++                $apiProblem->toArray(),
++                $apiProblem->getStatusCode()
+             );
+             $response->headers->set('Content-Type', 'application/problem+json');
+ 

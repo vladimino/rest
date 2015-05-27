@@ -1,0 +1,1 @@
+<?php return unserialize('a:1:{i:0;O:41:"JMS\\Serializer\\Annotation\\VirtualProperty":0:{}}');

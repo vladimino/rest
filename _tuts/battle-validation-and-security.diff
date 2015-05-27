@@ -1,0 +1,25 @@
+diff --git a/src/KnpU/CodeBattle/Controller/Api/BattleController.php b/src/KnpU/CodeBattle/Controller/Api/BattleController.php
+index 72fbc4e..1e05fb6 100644
+--- a/src/KnpU/CodeBattle/Controller/Api/BattleController.php
++++ b/src/KnpU/CodeBattle/Controller/Api/BattleController.php
+@@ -25,6 +25,20 @@ class BattleController extends BaseController
+         $programmer = $this->getProgrammerRepository()->find($programmerId);
+         $project = $this->getProjectRepository()->find($projectId);
+ 
++        $errors = array();
++        if (!$project) {
++            $errors['projectId'] = 'Invalid or missing projectId';
++        }
++        if (!$programmer) {
++            $errors['programmerId'] = 'Invalid or missing programmerId';
++        }
++        if ($errors) {
++            $this->throwApiProblemValidationException($errors);
++        }
++
++        // make sure I own this programmer
++        $this->enforceProgrammerOwnershipSecurity($programmer);
++
+         $battle = $this->getBattleManager()->battle($programmer, $project);
+ 
+         $response = $this->createApiResponse($battle, 201);

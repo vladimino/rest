@@ -1,0 +1,16 @@
+diff --git a/src/KnpU/CodeBattle/Controller/Api/ProgrammerController.php b/src/KnpU/CodeBattle/Controller/Api/ProgrammerController.php
+index f4caac1..628d636 100644
+--- a/src/KnpU/CodeBattle/Controller/Api/ProgrammerController.php
++++ b/src/KnpU/CodeBattle/Controller/Api/ProgrammerController.php
+@@ -16,8 +16,9 @@ class ProgrammerController extends BaseController
+         $controllers->post('/api/programmers', array($this, 'newAction'));
+     }
+ 
+-    public function newAction()
++    public function newAction(Request $request)
+     {
+-        return 'hello world!';
++        $data = $request->getContent();
++        return $data;
+     }
+ }

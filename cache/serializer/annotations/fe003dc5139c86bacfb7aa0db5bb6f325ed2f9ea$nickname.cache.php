@@ -1,0 +1,1 @@
+<?php return unserialize('a:2:{i:0;O:48:"Symfony\\Component\\Validator\\Constraints\\NotBlank":2:{s:7:"message";s:30:"Please enter a clever nickname";s:6:"groups";a:1:{i:0;s:7:"Default";}}i:1;O:32:"JMS\\Serializer\\Annotation\\Expose":0:{}}');

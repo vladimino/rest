@@ -1,0 +1,16 @@
+diff --git a/src/KnpU/CodeBattle/Application.php b/src/KnpU/CodeBattle/Application.php
+index 86cfda2..1769d4f 100644
+--- a/src/KnpU/CodeBattle/Application.php
++++ b/src/KnpU/CodeBattle/Application.php
+@@ -298,6 +298,11 @@ class Application extends SilexApplication
+                 return;
+             }
+ 
++            // allow 500 errors in debug to be thrown
++            if ($app['debug'] && $statusCode == 500) {
++                return;
++            }
++
+             if ($e instanceof ApiProblemException) {
+                 $apiProblem = $e->getApiProblem();
+             } else {

@@ -1,0 +1,41 @@
+diff --git a/src/KnpU/CodeBattle/Api/ApiProblem.php b/src/KnpU/CodeBattle/Api/ApiProblem.php
+index 895a284..caf81a4 100644
+--- a/src/KnpU/CodeBattle/Api/ApiProblem.php
++++ b/src/KnpU/CodeBattle/Api/ApiProblem.php
+@@ -11,10 +11,12 @@ class ApiProblem
+ {
+     const TYPE_VALIDATION_ERROR = 'validation_error';
+     const TYPE_INVALID_REQUEST_BODY_FORMAT = 'invalid_body_format';
++    const TYPE_AUTHENTICATION_ERROR = 'authentication_error';
+ 
+     private static $titles = array(
+         self::TYPE_VALIDATION_ERROR => 'There was a validation error',
+         self::TYPE_INVALID_REQUEST_BODY_FORMAT => 'Invalid JSON format sent',
++        self::TYPE_AUTHENTICATION_ERROR => 'Invalid or missing authentication',
+     );
+ 
+     private $statusCode;
+diff --git a/src/KnpU/CodeBattle/Security/Authentication/ApiEntryPoint.php b/src/KnpU/CodeBattle/Security/Authentication/ApiEntryPoint.php
+index f1bedfa..fc9c42d 100644
+--- a/src/KnpU/CodeBattle/Security/Authentication/ApiEntryPoint.php
++++ b/src/KnpU/CodeBattle/Security/Authentication/ApiEntryPoint.php
+@@ -2,6 +2,7 @@
+ 
+ namespace KnpU\CodeBattle\Security\Authentication;
+ 
++use KnpU\CodeBattle\Api\ApiProblem;
+ use Symfony\Component\HttpFoundation\JsonResponse;
+ use Symfony\Component\HttpFoundation\Request;
+ use Symfony\Component\HttpFoundation\Response;
+@@ -36,7 +37,10 @@ class ApiEntryPoint implements AuthenticationEntryPointInterface
+     {
+         $message = $this->getMessage($authException);
+ 
+-        $response = new JsonResponse(array('detail' => $message), 401);
++        $problem = new ApiProblem(401, ApiProblem::TYPE_AUTHENTICATION_ERROR);
++        $problem->set('detail', $message);
++
++        $response = new JsonResponse($problem->toArray(), 401);
+         $response->headers->set('Content-Type', 'application/problem+json');
+ 
+         return $response;

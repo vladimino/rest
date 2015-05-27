@@ -1,0 +1,132 @@
+diff --git a/src/KnpU/CodeBattle/Api/ApiProblemResponseFactory.php b/src/KnpU/CodeBattle/Api/ApiProblemResponseFactory.php
+new file mode 100644
+index 0000000..f8b9247
+--- /dev/null
++++ b/src/KnpU/CodeBattle/Api/ApiProblemResponseFactory.php
+@@ -0,0 +1,24 @@
++<?php
++
++namespace KnpU\CodeBattle\Api;
++
++use Symfony\Component\HttpFoundation\JsonResponse;
++
++class ApiProblemResponseFactory
++{
++    public function createResponse(ApiProblem $apiProblem)
++    {
++        $data = $apiProblem->toArray();
++        // making type a URL, to a temporarily fake page
++        if ($data['type'] != 'about:blank') {
++            $data['type'] = 'http://localhost:8000/docs/errors#'.$data['type'];
++        }
++        $response = new JsonResponse(
++            $data,
++            $apiProblem->getStatusCode()
++        );
++        $response->headers->set('Content-Type', 'application/problem+json');
++
++        return $response;
++    }
++}
+diff --git a/src/KnpU/CodeBattle/Application.php b/src/KnpU/CodeBattle/Application.php
+index 18a4e73..33dd97f 100644
+--- a/src/KnpU/CodeBattle/Application.php
++++ b/src/KnpU/CodeBattle/Application.php
+@@ -6,6 +6,7 @@ use Doctrine\Common\Annotations\AnnotationReader;
+ use JMS\Serializer\Naming\IdenticalPropertyNamingStrategy;
+ use KnpU\CodeBattle\Api\ApiProblem;
+ use KnpU\CodeBattle\Api\ApiProblemException;
++use KnpU\CodeBattle\Api\ApiProblemResponseFactory;
+ use KnpU\CodeBattle\Battle\PowerManager;
+ use KnpU\CodeBattle\Repository\BattleRepository;
+ use KnpU\CodeBattle\Repository\ProjectRepository;
+@@ -211,6 +212,7 @@ class Application extends SilexApplication
+         $this['api.validator'] = $this->share(function() use ($app) {
+             return new ApiValidator($app['validator']);
+         });
++
+         $this['serializer'] = $this->share(function() use ($app) {
+             return \JMS\Serializer\SerializerBuilder::create()
+                 ->setCacheDir($app['root_dir'].'/cache/serializer')
+@@ -218,6 +220,10 @@ class Application extends SilexApplication
+                 ->setPropertyNamingStrategy(new IdenticalPropertyNamingStrategy())
+                 ->build();
+         });
++
++        $this['api.response_factory'] = $this->share(function() {
++            return new ApiProblemResponseFactory();
++        });
+     }
+ 
+     private function configureSecurity()
+@@ -273,7 +279,7 @@ class Application extends SilexApplication
+ 
+             // the class that decides what should happen if no authentication credentials are passed
+             $this['security.entry_point.'.$name.'.api_token'] = $app->share(function() use ($app) {
+-                return new ApiEntryPoint($app['translator']);
++                return new ApiEntryPoint($app['translator'], $app['api.response_factory']);
+             });
+ 
+             return array(
+@@ -329,18 +335,10 @@ class Application extends SilexApplication
+                 }
+             }
+ 
+-            $data = $apiProblem->toArray();
+-            // making type a URL, to a temporarily fake page
+-            if ($data['type'] != 'about:blank') {
+-                $data['type'] = 'http://localhost:8000/docs/errors#'.$data['type'];
+-            }
+-            $response = new JsonResponse(
+-                $data,
+-                $apiProblem->getStatusCode()
+-            );
+-            $response->headers->set('Content-Type', 'application/problem+json');
++            /** @var \KnpU\CodeBattle\Api\ApiProblemResponseFactory $factory */
++            $factory = $app['api.response_factory'];
+ 
+-            return $response;
++            return $factory->createResponse($apiProblem);
+         });
+     }
+ } 
+\ No newline at end of file
+diff --git a/src/KnpU/CodeBattle/Security/Authentication/ApiEntryPoint.php b/src/KnpU/CodeBattle/Security/Authentication/ApiEntryPoint.php
+index fc9c42d..0a60df7 100644
+--- a/src/KnpU/CodeBattle/Security/Authentication/ApiEntryPoint.php
++++ b/src/KnpU/CodeBattle/Security/Authentication/ApiEntryPoint.php
+@@ -3,7 +3,7 @@
+ namespace KnpU\CodeBattle\Security\Authentication;
+ 
+ use KnpU\CodeBattle\Api\ApiProblem;
+-use Symfony\Component\HttpFoundation\JsonResponse;
++use KnpU\CodeBattle\Api\ApiProblemResponseFactory;
+ use Symfony\Component\HttpFoundation\Request;
+ use Symfony\Component\HttpFoundation\Response;
+ use Symfony\Component\Security\Core\Exception\AuthenticationException;
+@@ -20,9 +20,12 @@ class ApiEntryPoint implements AuthenticationEntryPointInterface
+ {
+     private $translator;
+ 
+-    public function __construct(Translator $translator)
++    private $responseFactory;
++
++    public function __construct(Translator $translator, ApiProblemResponseFactory $responseFactory)
+     {
+         $this->translator = $translator;
++        $this->responseFactory = $responseFactory;
+     }
+ 
+     /**
+@@ -40,10 +43,7 @@ class ApiEntryPoint implements AuthenticationEntryPointInterface
+         $problem = new ApiProblem(401, ApiProblem::TYPE_AUTHENTICATION_ERROR);
+         $problem->set('detail', $message);
+ 
+-        $response = new JsonResponse($problem->toArray(), 401);
+-        $response->headers->set('Content-Type', 'application/problem+json');
+-
+-        return $response;
++        return $this->responseFactory->createResponse($problem);
+     }
+ 
+     /**

@@ -1,0 +1,24 @@
+diff --git a/features/api/battle.feature b/features/api/battle.feature
+index e674da4..f7288fa 100644
+--- a/features/api/battle.feature
++++ b/features/api/battle.feature
+@@ -32,4 +32,5 @@ Feature:
+     And the "notes" property should exist
+     And the "didProgrammerWin" property should exist
+     And the link "programmer" should exist and its value should be "/api/programmers/Fred"
++    And the "_embedded.programmer.nickname" property should equal "Fred"
+     And the "Content-Type" header should be "application/hal+json"
+diff --git a/src/KnpU/CodeBattle/Model/Battle.php b/src/KnpU/CodeBattle/Model/Battle.php
+index 8f6c790..08bef5b 100644
+--- a/src/KnpU/CodeBattle/Model/Battle.php
++++ b/src/KnpU/CodeBattle/Model/Battle.php
+@@ -12,7 +12,8 @@ use Hateoas\Configuration\Annotation as Hateoas;
+  *      href = @Hateoas\Route(
+  *          "api_programmers_show",
+  *          parameters = { "nickname" = "expr(object.programmer.nickname)" }
+- *      )
++ *      ),
++ *      embedded = "expr(object.programmer)"
+  * )
+  * @Serializer\ExclusionPolicy("all")
+  */

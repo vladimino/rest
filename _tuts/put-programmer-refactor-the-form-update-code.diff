@@ -1,0 +1,74 @@
+diff --git a/features/api/programmer.feature b/features/api/programmer.feature
+index dac11bd..5980364 100644
+--- a/features/api/programmer.feature
++++ b/features/api/programmer.feature
+@@ -58,6 +58,5 @@ Feature: Programmer
+       }
+       """
+     When I request "PUT /api/programmers/CowboyCoder"
+-    And print last response
+     Then the response status code should be 200
+     And the "avatarNumber" property should equal "2"
+diff --git a/src/KnpU/CodeBattle/Controller/Api/ProgrammerController.php b/src/KnpU/CodeBattle/Controller/Api/ProgrammerController.php
+index f66ec74..fe1ec77 100644
+--- a/src/KnpU/CodeBattle/Controller/Api/ProgrammerController.php
++++ b/src/KnpU/CodeBattle/Controller/Api/ProgrammerController.php
+@@ -25,13 +25,8 @@ class ProgrammerController extends BaseController
+ 
+     public function newAction(Request $request)
+     {
+-        $data = json_decode($request->getContent(), true);
+-
+-        $programmer = new Programmer($data['nickname'], $data['avatarNumber']);
+-        $programmer->tagLine = $data['tagLine'];
+-        $programmer->userId = $this->findUserByUsername('weaverryan')->id;
+-
+-        $this->save($programmer);
++        $programmer = new Programmer();
++        $this->handleRequest($request, $programmer);
+ 
+         $data = $this->serializeProgrammer($programmer);
+         $response = new JsonResponse($data, 201);
+@@ -80,22 +75,35 @@ class ProgrammerController extends BaseController
+             $this->throw404('Oh no! This programmer has deserted! We\'ll send a search party!');
+         }
+ 
+-        throw new \Exception('This is scary!');
++        $this->handleRequest($request, $programmer);
++
++        $data = $this->serializeProgrammer($programmer);
++
++        $response = new JsonResponse($data, 200);
++
++        return $response;
++    }
+ 
++    /**
++     * Reads data from the Request, updates the Programmer and saves it.
++     *
++     * @param Request $request
++     * @param Programmer $programmer
++     */
++    private function handleRequest(Request $request, Programmer $programmer)
++    {
+         $data = json_decode($request->getContent(), true);
+ 
++        if ($data === null) {
++            throw new \Exception(sprintf('Invalid JSON: '.$request->getContent()));
++        }
++
+         $programmer->nickname = $data['nickname'];
+         $programmer->avatarNumber = $data['avatarNumber'];
+         $programmer->tagLine = $data['tagLine'];
+         $programmer->userId = $this->findUserByUsername('weaverryan')->id;
+ 
+         $this->save($programmer);
+-
+-        $data = $this->serializeProgrammer($programmer);
+-
+-        $response = new JsonResponse($data, 200);
+-
+-        return $response;
+     }
+ 
+     private function serializeProgrammer(Programmer $programmer)

@@ -1,0 +1,580 @@
+{
+    "steps": [
+        {
+            "id": "start",
+            "name": "start",
+            "description": null
+        },
+        {
+            "id": "post-programmer-create-endpoint",
+            "name": "POST Programmer: Create endpoint",
+            "description": null
+        },
+        {
+            "id": "post-programmer-start-basic-test",
+            "name": "POST Programmer: Start basic test",
+            "description": null
+        },
+        {
+            "id": "post-programmer-update-test-with-post-data",
+            "name": "POST Programmer: Update test with POST data",
+            "description": null
+        },
+        {
+            "id": "post-programmer-dump-request-content",
+            "name": "POST Programmer: Dump request content",
+            "description": null
+        },
+        {
+            "id": "post-programmer-creating-and-saving-entity",
+            "name": "POST Programmer: Creating and saving entity",
+            "description": null
+        },
+        {
+            "id": "post-programmer-201-status-code",
+            "name": "POST Programmer: 201 status code",
+            "description": null
+        },
+        {
+            "id": "post-programmer-first-location-header",
+            "name": "POST Programmer: First Location header",
+            "description": null
+        },
+        {
+            "id": "get-programmer-hardcoded-show-page",
+            "name": "GET Programmer: Hardcoded show page",
+            "description": null
+        },
+        {
+            "id": "get-programmer-return-json-string-of-programmer",
+            "name": "GET Programmer: Return JSON string of Programmer",
+            "description": null
+        },
+        {
+            "id": "get-programmer-content-type",
+            "name": "GET Programmer: Content-type",
+            "description": null
+        },
+        {
+            "id": "get-programmer-throw-404",
+            "name": "GET Programmer: Throw 404",
+            "description": null
+        },
+        {
+            "id": "get-programmer-update-location-header",
+            "name": "GET Programmer: Update Location header",
+            "description": null
+        },
+        {
+            "id": "get-programmer-use-location-header-in-test",
+            "name": "GET Programmer: Use Location header in test",
+            "description": null
+        },
+        {
+            "id": "get-programmer-total-endpoint-for-programmers",
+            "name": "GET Programmer: Total endpoint for \/programmers",
+            "description": null
+        },
+        {
+            "id": "get-programmer-return-body-on-post",
+            "name": "GET Programmer: Return body on POST",
+            "description": null
+        },
+        {
+            "id": "get-programmer-use-jsonresponse",
+            "name": "GET Programmer: Use JsonResponse",
+            "description": null
+        },
+        {
+            "id": "behat-basic-phpunit-test",
+            "name": "Behat: Basic PHPUnit test",
+            "description": null
+        },
+        {
+            "id": "behat-fill-in-phpunit-test",
+            "name": "Behat: Fill in PHPUnit test",
+            "description": null
+        },
+        {
+            "id": "behat-adding-asserts-to-phpunit-test",
+            "name": "Behat: Adding asserts to PHPUnit test",
+            "description": null
+        },
+        {
+            "id": "behat-basic-post-scenario",
+            "name": "Behat: Basic POST scenario",
+            "description": null
+        },
+        {
+            "id": "behat-clear-data-between-tests",
+            "name": "Behat: Clear data between tests",
+            "description": null
+        },
+        {
+            "id": "behat-list-and-show-tests",
+            "name": "Behat: List and show tests",
+            "description": null
+        },
+        {
+            "id": "put-programmer-write-the-test",
+            "name": "PUT Programmer: Write the test",
+            "description": null
+        },
+        {
+            "id": "put-programmer-create-put-endpoint",
+            "name": "PUT Programmer: Create PUT endpoint",
+            "description": null
+        },
+        {
+            "id": "put-programmer-temporarily-making-the-test-fail",
+            "name": "PUT Programmer: Temporarily making the test fail",
+            "description": null
+        },
+        {
+            "id": "put-programmer-refactor-the-form-update-code",
+            "name": "PUT Programmer: Refactor the \"form\" update code",
+            "description": null
+        },
+        {
+            "id": "put-programmer-make-handlerequest-a-little-fancier",
+            "name": "PUT Programmer: make handleRequest a little fancier",
+            "description": null
+        },
+        {
+            "id": "put-programmer-making-certain-properties-not-mutable",
+            "name": "PUT Programmer: Making certain properties not mutable",
+            "description": null
+        },
+        {
+            "id": "delete-programmer-writing-the-test",
+            "name": "DELETE Programmer: Writing the test",
+            "description": null
+        },
+        {
+            "id": "delete-programmer-implement-the-controller",
+            "name": "DELETE Programmer: Implement the controller",
+            "description": null
+        },
+        {
+            "id": "patch-programmer-write-the-test",
+            "name": "PATCH Programmer: Write the test",
+            "description": null
+        },
+        {
+            "id": "patch-programmer-adding-the-controller",
+            "name": "PATCH Programmer: Adding the controller",
+            "description": null
+        },
+        {
+            "id": "errors-write-test-for-missing-fields",
+            "name": "Errors: Write test for missing fields",
+            "description": null
+        },
+        {
+            "id": "errors-playing-with-validation",
+            "name": "Errors: Playing with validation",
+            "description": null
+        },
+        {
+            "id": "errors-using-on-update-and-refactoring",
+            "name": "Errors: Using on update and refactoring",
+            "description": null
+        },
+        {
+            "id": "errors-standard-content-type",
+            "name": "Errors: Standard content-type",
+            "description": null
+        },
+        {
+            "id": "errors-standard-apiproblem-class",
+            "name": "Errors: Standard ApiProblem class",
+            "description": null
+        },
+        {
+            "id": "errors-apiproblem-type-constants",
+            "name": "Errors: ApiProblem type constants",
+            "description": null
+        },
+        {
+            "id": "errors-invalid-json-format",
+            "name": "Errors: Invalid JSON format",
+            "description": null
+        },
+        {
+            "id": "errors-named-badrequesthttpexception",
+            "name": "Errors: Named BadRequestHttpException",
+            "description": null
+        },
+        {
+            "id": "errors-print-bad-response-in-test",
+            "name": "Errors: Print bad response in test",
+            "description": null
+        },
+        {
+            "id": "errors-create-apiproblemexception",
+            "name": "Errors: Create ApiProblemException",
+            "description": null
+        },
+        {
+            "id": "errors-exception-listener-for-apiproblemexception",
+            "name": "Errors: Exception listener for ApiProblemException",
+            "description": null
+        },
+        {
+            "id": "errors-throw-apiproblemexception-on-validation-errors",
+            "name": "Errors: Throw ApiProblemException on validation errors",
+            "description": null
+        },
+        {
+            "id": "errors-handling-404-s",
+            "name": "Errors: Handling 404's",
+            "description": null
+        },
+        {
+            "id": "errors-extra-information-on-error",
+            "name": "Errors: Extra information on error",
+            "description": null
+        },
+        {
+            "id": "errors-big-exceptions-for-debug",
+            "name": "Errors: Big exceptions for debug",
+            "description": null
+        },
+        {
+            "id": "errors-making-type-a-url",
+            "name": "Errors: Making type a URL",
+            "description": null
+        },
+        {
+            "id": "serialize-installing-serializer",
+            "name": "Serialize: Installing serializer",
+            "description": null
+        },
+        {
+            "id": "serialize-using-serializer-service",
+            "name": "Serialize: Using serializer service",
+            "description": null
+        },
+        {
+            "id": "serialize-central-method-for-response-creation",
+            "name": "Serialize: Central method for response creation",
+            "description": null
+        },
+        {
+            "id": "serialize-fixing-null-values",
+            "name": "Serialize: Fixing null values",
+            "description": null
+        },
+        {
+            "id": "serialize-whitelisting-properties",
+            "name": "Serialize: Whitelisting properties",
+            "description": null
+        },
+        {
+            "id": "auth-authentication-required-scenario",
+            "name": "Auth: Authentication Required Scenario",
+            "description": null
+        },
+        {
+            "id": "auth-requiring-a-valid-user-for-new-programmer",
+            "name": "Auth: Requiring a valid user for new programmer",
+            "description": null
+        },
+        {
+            "id": "auth-translating-the-error-message",
+            "name": "Auth: Translating the error message",
+            "description": null
+        },
+        {
+            "id": "auth-adding-auth-header-background",
+            "name": "Auth: Adding auth header background",
+            "description": null
+        },
+        {
+            "id": "auth-finish-listener-and-provider",
+            "name": "Auth: Finish listener and provider",
+            "description": null
+        },
+        {
+            "id": "auth-user-real-user-for-new-programmer",
+            "name": "Auth: User real user for new Programmer",
+            "description": null
+        },
+        {
+            "id": "auth-protect-more-endpoints",
+            "name": "Auth: Protect more endpoints",
+            "description": null
+        },
+        {
+            "id": "auth-scenario-for-bad-token",
+            "name": "Auth: Scenario for bad token",
+            "description": null
+        },
+        {
+            "id": "auth-look-for-application-problem-json-on-auth-problems",
+            "name": "Auth: Look for application\/problem+json on auth problems",
+            "description": null
+        },
+        {
+            "id": "auth-apiproblem-on-error",
+            "name": "Auth: ApiProblem on error",
+            "description": null
+        },
+        {
+            "id": "auth-unifying-apiproblem-to-response-process",
+            "name": "Auth: Unifying ApiProblem to Response process",
+            "description": null
+        },
+        {
+            "id": "auth-new-feature",
+            "name": "Auth Token: New Feature for Token Resource",
+            "description": null
+        },
+        {
+            "id": "auth-scenario-creating-a-token",
+            "name": "Auth Token: Scenario creating a token",
+            "description": null
+        },
+        {
+            "id": "auth-empty-token-controller-class",
+            "name": "Auth Token: Empty token controller class",
+            "description": null
+        },
+        {
+            "id": "auth-token-new-routing",
+            "name": "Auth Token: Token new routing",
+            "description": null
+        },
+        {
+            "id": "auth-basic-new-token-implementation",
+            "name": "Auth Token: Basic new token implementation",
+            "description": null
+        },
+        {
+            "id": "auth-scenario-for-bad-password",
+            "name": "Auth Token: Scenario for bad password",
+            "description": null
+        },
+        {
+            "id": "auth-checking-for-password-validity",
+            "name": "Auth Token: Using HTTP Basic auth",
+            "description": null
+        },
+        {
+            "id": "auth-show-simple-decoderequestbodyintoparameters",
+            "name": "Auth: Show simple decodeRequestBodyIntoParameters",
+            "description": null
+        },
+        {
+            "id": "auth-token-centralize-json-decode",
+            "name": "Auth Token: Centralize json_decode",
+            "description": null
+        },
+        {
+            "id": "auth-token-token-validation",
+            "name": "Auth Token: Token validation",
+            "description": null
+        },
+        {
+            "id": "battle-create-feature-and-post-scenario",
+            "name": "Battle: Create feature and POST scenario",
+            "description": null
+        },
+        {
+            "id": "battle-post-controller",
+            "name": "Battle: POST controller",
+            "description": null
+        },
+        {
+            "id": "battle-post-code-implementation",
+            "name": "Battle: POST code implementation",
+            "description": null
+        },
+        {
+            "id": "battle-validation-and-security",
+            "name": "Battle: Validation and security",
+            "description": null
+        },
+        {
+            "id": "battle-scenario-temp-tweak-for-validation",
+            "name": "Battle: Scenario temp tweak for validation",
+            "description": null
+        },
+        {
+            "id": "battle-get-scenario",
+            "name": "Battle: GET scenario",
+            "description": null
+        },
+        {
+            "id": "battle-change-scenario-back",
+            "name": "Battle: Change scenario back",
+            "description": null
+        },
+        {
+            "id": "battle-get-collection-code",
+            "name": "Battle: GET collection code",
+            "description": null
+        },
+        {
+            "id": "battle-fix-location-header",
+            "name": "Battle: Fix Location Header",
+            "description": null
+        },
+        {
+            "id": "battle-print-last-response",
+            "name": "Battle: Print last response",
+            "description": null
+        },
+        {
+            "id": "battle-exclusionpolicy",
+            "name": "Battle: ExclusionPolicy",
+            "description": null
+        },
+        {
+            "id": "battle-linking-to-programmer-url",
+            "name": "Battle: Linking to Programmer URL",
+            "description": null
+        },
+        {
+            "id": "hateoas-install-library",
+            "name": "HATEOAS: Install library",
+            "description": null
+        },
+        {
+            "id": "hateoas-basic-usage",
+            "name": "HATEOAS: Basic usage",
+            "description": null
+        },
+        {
+            "id": "hateoas-first-self-link",
+            "name": "HATEOAS: First self link",
+            "description": null
+        },
+        {
+            "id": "hateoas-using-a-router",
+            "name": "HATEOAS: Using a router",
+            "description": null
+        },
+        {
+            "id": "hateoas-fixing-syntax-errors",
+            "name": "HATEOAS: Fixing syntax errors",
+            "description": null
+        },
+        {
+            "id": "hateoas-linking-battle-to-programmer",
+            "name": "HATEOAS: Linking Battle to Programmer",
+            "description": null
+        },
+        {
+            "id": "hateoas-using-a-better-step-for-checking-links",
+            "name": "HATEOAS: Using a better step for checking links",
+            "description": null
+        },
+        {
+            "id": "hateoas-hal-media-type",
+            "name": "HATEOAS: HAL media type",
+            "description": null
+        },
+        {
+            "id": "hateoas-embedded-links",
+            "name": "HATEOAS: Embedded links",
+            "description": null
+        },
+        {
+            "id": "hateoas-better-embeded-scenario-step",
+            "name": "HATEOAS: Better embeded scenario step",
+            "description": null
+        },
+        {
+            "id": "hal-browser-add-it",
+            "name": "Hal Browser: Add it",
+            "description": null
+        },
+        {
+            "id": "hal-browser-updating-test-for-proper-programmers-collection",
+            "name": "Hal Browser: Updating test for proper programmers collection",
+            "description": null
+        },
+        {
+            "id": "hal-browser-use-collectionrepresentation",
+            "name": "Hal Browser: Use CollectionRepresentation",
+            "description": null
+        },
+        {
+            "id": "programmer-battles-creating-scenario",
+            "name": "Programmer Battles: Creating scenario",
+            "description": null
+        },
+        {
+            "id": "programmer-battles-implementing-endpoint",
+            "name": "Programmer Battles: Implementing endpoint",
+            "description": null
+        },
+        {
+            "id": "programmer-battles-adding-link-to-battles",
+            "name": "Programmer Battles: Adding link to battles",
+            "description": null
+        },
+        {
+            "id": "programmer-battles-adding-self-link-to-battle",
+            "name": "Programmer Battles: Adding self link to Battle",
+            "description": null
+        },
+        {
+            "id": "programmer-battles-fixing-the-bad-route-param",
+            "name": "Programmer Battles: Fixing the bad route param",
+            "description": null
+        },
+        {
+            "id": "homepage-basic-response",
+            "name": "Homepage: Basic response",
+            "description": null
+        },
+        {
+            "id": "homepage-fix-api-url",
+            "name": "Homepage: Fix API URL",
+            "description": null
+        },
+        {
+            "id": "homepage-create-model-with-self",
+            "name": "Homepage: Create model with self",
+            "description": null
+        },
+        {
+            "id": "homepage-adding-title-attribute",
+            "name": "Homepage: Adding title attribute",
+            "description": null
+        },
+        {
+            "id": "homepage-add-a-nice-message",
+            "name": "Homepage: Add a nice message",
+            "description": null
+        },
+        {
+            "id": "homepage-add-link-to-programmers",
+            "name": "Homepage: Add link to programmers",
+            "description": null
+        },
+        {
+            "id": "pagination-adding-pagination-scenario",
+            "name": "Pagination: Adding pagination scenario",
+            "description": null
+        },
+        {
+            "id": "pagination-adding-faked-pagination",
+            "name": "Pagination: Adding faked pagination",
+            "description": null
+        },
+        {
+            "id": "pagination-adding-real-simple-implementation",
+            "name": "Pagination: Adding real (simple) implementation",
+            "description": null
+        },
+        {
+            "id": "filtering-adding-a-simple-filter",
+            "name": "Filtering: Adding a simple filter",
+            "description": null
+        }
+    ],
+    "sha": "8f85eecee857554d469d40a68c58a20ad977c3dd"
+}

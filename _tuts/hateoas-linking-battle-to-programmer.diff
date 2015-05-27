@@ -1,0 +1,44 @@
+diff --git a/features/api/battle.feature b/features/api/battle.feature
+index b737a19..9982895 100644
+--- a/features/api/battle.feature
++++ b/features/api/battle.feature
+@@ -31,4 +31,4 @@ Feature:
+     Then the response status code should be 200
+     And the "notes" property should exist
+     And the "didProgrammerWin" property should exist
+-    And the "programmerUri" property should equal "/api/programmers/Fred"
++    And the "_links.programmer.href" property should equal "/api/programmers/Fred"
+diff --git a/src/KnpU/CodeBattle/Model/Battle.php b/src/KnpU/CodeBattle/Model/Battle.php
+index eaf2686..8f6c790 100644
+--- a/src/KnpU/CodeBattle/Model/Battle.php
++++ b/src/KnpU/CodeBattle/Model/Battle.php
+@@ -4,7 +4,16 @@ namespace KnpU\CodeBattle\Model;
+ 
+ use JMS\Serializer\Annotation as Serializer;
+ 
++use Hateoas\Configuration\Annotation as Hateoas;
++
+ /**
++ * @Hateoas\Relation(
++ *      "programmer",
++ *      href = @Hateoas\Route(
++ *          "api_programmers_show",
++ *          parameters = { "nickname" = "expr(object.programmer.nickname)" }
++ *      )
++ * )
+  * @Serializer\ExclusionPolicy("all")
+  */
+ class Battle
+@@ -38,12 +47,4 @@ class Battle
+      * @Serializer\Expose()
+      */
+     public $notes;
+-
+-    /**
+-     * @Serializer\VirtualProperty()
+-     */
+-    public function getProgrammerUri()
+-    {
+-        return '/api/programmers/'.$this->programmer->nickname;
+-    }
+ }

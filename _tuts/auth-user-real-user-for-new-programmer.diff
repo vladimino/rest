@@ -1,0 +1,13 @@
+diff --git a/src/KnpU/CodeBattle/Controller/Api/ProgrammerController.php b/src/KnpU/CodeBattle/Controller/Api/ProgrammerController.php
+index dedc62c..fb3cdf3 100644
+--- a/src/KnpU/CodeBattle/Controller/Api/ProgrammerController.php
++++ b/src/KnpU/CodeBattle/Controller/Api/ProgrammerController.php
+@@ -149,7 +149,7 @@ class ProgrammerController extends BaseController
+             $programmer->$property = $val;
+         }
+ 
+-        $programmer->userId = $this->findUserByUsername('weaverryan')->id;
++        $programmer->userId = $this->getLoggedInUser()->id;
+     }
+ 
+     private function throwApiProblemValidationException(array $errors)
